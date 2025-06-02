@@ -55,8 +55,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
           throw Exception('Failed to process signature');
         }
 
-        final String signatureBase64 = base64Encode(signatureBytes);
-        final String signatureStrokeJson = jsonEncode(_signatureController.points);
+        // final String signatureBase64 = base64Encode(signatureBytes);
+        String rawBase64 = base64Encode(signatureBytes);
+        final String signatureBase64 = rawBase64.startsWith('data:image')
+            ? rawBase64
+            : 'data:image/png;base64,$rawBase64';
+
+        print( _signatureController.points[0].offset.dx);
+
+        // final String signatureStrokeJson = jsonEncode(_signatureController.points);
+        final List<Map<String, double>> signaturePoints = _signatureController.points
+            .map((point) => {'x': point.offset.dx, 'y': point.offset.dy})
+            .toList();
+
+        final String signatureStrokeJson = jsonEncode(signaturePoints);
 
         // Register user
         final authService = Provider.of<AuthService>(context, listen: false);
