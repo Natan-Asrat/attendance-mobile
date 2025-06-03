@@ -44,11 +44,11 @@ class AuthService extends ChangeNotifier {
   }) async {
     try {
       print(
-          'AuthService - Sending register request to ${baseUrl}account/users/register/');
+          'AuthService - Sending register request to ${baseUrl}account/users/');
 
       var request = http.MultipartRequest(
         'POST',
-        Uri.parse('${baseUrl}account/users/register/'),
+        Uri.parse('${baseUrl}account/users/'),
       );
 
       request.fields['name'] = name;

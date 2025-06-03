@@ -51,7 +51,12 @@ class _LoginScreenState extends State<LoginScreen> {
           throw Exception('Failed to process signature');
         }
 
-        final String signatureBase64 = base64Encode(signatureBytes);
+        // final String signatureBase64 = base64Encode(signatureBytes);
+        String rawBase64 = base64Encode(signatureBytes);
+        final String signatureBase64 = rawBase64.startsWith('data:image')
+            ? rawBase64
+            : 'data:image/png;base64,$rawBase64';
+
         final authService = Provider.of<AuthService>(context, listen: false);
 
         await authService.login(
