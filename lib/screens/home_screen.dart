@@ -1,7 +1,10 @@
+import 'dart:convert';
+import 'package:attendance_app/screens/attendance_list_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:attendance_app/models/user.dart';
 import 'package:attendance_app/screens/login_screen.dart';
+import 'package:attendance_app/services/auth_service.dart'; // Make sure this is correct
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -9,44 +12,40 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   bool _isLoading = true;
   String _userType = '';
   String _userName = '';
+  late AuthService _authService;
 
   @override
   void initState() {
     super.initState();
+    _authService = AuthService();
     _loadUserData();
   }
 
   Future<void> _loadUserData() async {
-    setState(() {
-      _isLoading = true;
-    });
-
+    setState(() => _isLoading = true);
     try {
-      User? user = _auth.currentUser;
-      if (user != null) {
-        DocumentSnapshot userDoc = await _firestore.collection('users').doc(user.uid).get();
-        
+      final prefs = await SharedPreferences.getInstance();
+      final userData = prefs.getString('user');
+      if (userData != null) {
+        final userJson = jsonDecode(userData);
+        final user = User.fromJson(userJson);
         setState(() {
-          _userType = userDoc['userType'];
-          _userName = userDoc['name'];
+          _userName = user.name;
+          _userType = userJson['userType'] ?? 'unknown'; // adjust if userType is stored
         });
       }
     } catch (e) {
       print('Error loading user data: $e');
     } finally {
-      setState(() {
-        _isLoading = false;
-      });
+      setState(() => _isLoading = false);
     }
   }
 
   Future<void> _signOut() async {
-    await _auth.signOut();
+    await _authService.logout();
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(builder: (context) => LoginScreen()),
     );
@@ -67,67 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: _isLoading
           ? Center(child: CircularProgressIndicator())
-          : Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Welcome, $_userName!',
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: 8),
-                  Text(
-                    'You are logged in as a $_userType',
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.grey[600],
-                    ),
-                  ),
-                  SizedBox(height: 32),
-                  if (_userType == 'teacher') ...[
-                    _buildFeatureCard(
-                      title: 'Create Attendance Session',
-                      description: 'Create a new attendance session for your class',
-                      icon: Icons.add_box,
-                      onTap: () {
-                        // Navigate to create attendance screen
-                      },
-                    ),
-                    SizedBox(height: 16),
-                    _buildFeatureCard(
-                      title: 'View Attendance Records',
-                      description: 'Check attendance records for your classes',
-                      icon: Icons.history,
-                      onTap: () {
-                        // Navigate to attendance history screen
-                      },
-                    ),
-                  ] else if (_userType == 'student') ...[
-                    _buildFeatureCard(
-                      title: 'Mark Attendance',
-                      description: 'Mark your attendance for active sessions',
-                      icon: Icons.check_circle,
-                      onTap: () {
-                        // Navigate to mark attendance screen
-                      },
-                    ),
-                    SizedBox(height: 16),
-                    _buildFeatureCard(
-                      title: 'My Attendance History',
-                      description: 'View your attendance history',
-                      icon: Icons.history,
-                      onTap: () {
-                        // Navigate to student attendance history
-                      },
-                    ),
-                  ],
-                ],
-              ),
-            ),
+          : AttendanceListScreen(),
     );
   }
 
@@ -139,9 +78,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }) {
     return Card(
       elevation: 4,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.circular(12),
@@ -155,20 +92,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      title,
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+                    Text(title,
+                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                     SizedBox(height: 4),
-                    Text(
-                      description,
-                      style: TextStyle(
-                        color: Colors.grey[600],
-                      ),
-                    ),
+                    Text(description, style: TextStyle(color: Colors.grey[600])),
                   ],
                 ),
               ),

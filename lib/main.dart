@@ -4,6 +4,8 @@ import 'package:attendance_app/screens/register_screen.dart';
 import 'package:attendance_app/services/auth_service.dart';
 import 'package:attendance_app/screens/home_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:attendance_app/services/attendance_service.dart';
+import 'package:attendance_app/screens/attendance_list_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,23 +20,33 @@ void main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Attendance App',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.indigo,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-        inputDecorationTheme: InputDecorationTheme(
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
-          contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => AuthService()),
+        ChangeNotifierProxyProvider<AuthService, AttendanceService>(
+          create: (context) => AttendanceService(context.read<AuthService>()),
+          update: (context, auth, previous) => previous ?? AttendanceService(auth),
         ),
+      ],
+      child: MaterialApp(
+        title: 'Attendance App',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primarySwatch: Colors.indigo,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+          inputDecorationTheme: InputDecorationTheme(
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+          ),
+        ),
+        home: AuthenticationWrapper(),
+        routes: {
+          '/attendances': (context) => AttendanceListScreen(),
+          '/register': (context) => RegisterScreen(),
+        },
       ),
-      home: AuthenticationWrapper(),
-      routes: {
-        '/register': (context) => RegisterScreen(), // Add this line
-      },
     );
   }
 }
