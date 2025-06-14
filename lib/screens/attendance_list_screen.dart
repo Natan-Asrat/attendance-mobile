@@ -1,3 +1,4 @@
+import 'package:attendance_app/screens/attendance_detail_screen.dart';
 import 'package:attendance_app/screens/create_attendance_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -99,7 +100,13 @@ class _AttendanceListScreenState extends State<AttendanceListScreen> {
                   margin: EdgeInsets.only(bottom: 16),
                   child: InkWell(
                     onTap: () {
-                      // Navigate to attendance details
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              AttendanceDetailScreen(attendance: attendance),
+                        ),
+                      );
                     },
                     child: Padding(
                       padding: EdgeInsets.all(16),
@@ -183,7 +190,13 @@ class _AttendanceListScreenState extends State<AttendanceListScreen> {
                           SizedBox(height: 16),
                           ElevatedButton(
                             onPressed: () {
-                              // Navigate to attendance details
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      AttendanceDetailScreen(attendance: attendance),
+                                ),
+                              );
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.indigo[600],
