@@ -6,7 +6,7 @@ import 'package:signature/signature.dart';
 import 'dart:convert';
 import 'dart:typed_data';
 
-// RegisterScreen: A user registration screen with form validation and signature capture.
+
 
 class RegisterScreen extends StatefulWidget {
   @override
