@@ -2,10 +2,14 @@
 
    
    
-   NAME OF STUDENTS              ID NO          
+   NAME OF STUDENTS              ID NO      
+       
 1, NATNAEL MULUGETA…………………………..UGR/2097/14
+
 2, NATAN ASRAT……………………………………UGR/5768/14
+
 3, KALEAB ALEBACHEW…………………………UGR/7568/14
+
 4, MAHDER SOLOMON……………………………UGR/4954/14
 
 
@@ -14,10 +18,25 @@ This is a modern Flutter-based mobile application designed to streamline the pro
 ## Key Features
 
 - **User Registration:** New users can create an account by providing their full name, email address, phone number, and a personal digital signature.
+
+  ![User Registration](screenshots/register.png)
+
 - **Secure Login:** Registered users can log in securely using their phone number and digital signature, ensuring a two-factor authentication mechanism.
+
+  ![Secure Login](screenshots/login.png)
+
 - **Attendance History:** Users can view a comprehensive list of all their past attendance records. Each record is displayed in a clean, modern card layout.
+
+  ![Attendance History](screenshots/attendance%20list.png)
+
 - **Detailed Attendance View:** By tapping on an attendance record, users can view detailed information, including the event title, description, organization, and the date the attendance was marked.
+
+  ![Detailed Attendance View](screenshots/attendance%20details.png)
+
 - **Mark New Attendance:** Users can mark their attendance for a new event by entering a unique event `short code`. The app fetches the event details, and the user confirms their attendance by providing their digital signature.
+
+  ![Mark New Attendance](screenshots/create%20attendance.png)
+
 - **Modern & Responsive UI:** The entire application is built with a modern, clean, and intuitive user interface that provides a seamless user experience across different screen sizes.
 
 ## Tech Stack
