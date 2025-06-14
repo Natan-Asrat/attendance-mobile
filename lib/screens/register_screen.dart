@@ -34,6 +34,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     _signatureController.dispose();
     super.dispose();
   }
+// Dispose controllers to free memory and prevent leaks
 
   Future<void> _register() async {
     if (_formKey.currentState!.validate()) {
