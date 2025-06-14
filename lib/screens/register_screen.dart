@@ -197,8 +197,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       if (value == null || value.isEmpty) {
                         return 'Please enter your phone number';
                       }
-                      if (value.length < 10) {
-                        return 'Phone number must be at least 10 digits';
+                      final phoneRegExp = RegExp(r'^\+?[0-9]{10,15}$');
+                      if (!phoneRegExp.hasMatch(value)) {
+                        return 'Please enter a valid phone number';
                       }
                       return null;
                     },
