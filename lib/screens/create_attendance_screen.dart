@@ -15,6 +15,7 @@ class _CreateAttendanceScreenState extends State<CreateAttendanceScreen> {
   final SignatureController _signatureController = SignatureController(
     penStrokeWidth: 5,
     penColor: Colors.black,
+    exportBackgroundColor: Colors.transparent,
     exportBackgroundColor: Colors.white,
   );
 

@@ -22,13 +22,13 @@ class AttendanceDetailScreen extends StatelessWidget {
         child: Column(
           children: [
             Container(
-              padding: const EdgeInsets.all(24),
+              padding: const EdgeInsets.all(26),
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(17),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.grey.withOpacity(0.1),
+                    color: Colors.grey.withOpacity(0.2),
                     spreadRadius: 2,
                     blurRadius: 10,
                     offset: const Offset(0, 5),
@@ -42,7 +42,7 @@ class AttendanceDetailScreen extends StatelessWidget {
                     child: Column(
                       children: [
                         CircleAvatar(
-                          radius: 40,
+                          radius: 39,
                           backgroundColor: Colors.deepPurpleAccent.withOpacity(0.1),
                           child: const Icon(Icons.person_pin, size: 40, color: Colors.deepPurpleAccent),
                         ),
@@ -58,6 +58,7 @@ class AttendanceDetailScreen extends StatelessWidget {
                         const SizedBox(height: 4),
                         Text(
                           attendance.displayName,
+
                           style: TextStyle(fontSize: 16, color: Colors.grey[600]),
                         ),
                       ],
