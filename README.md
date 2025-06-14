@@ -12,6 +12,8 @@
 
 4, MAHDER SOLOMON……………………………UGR/4954/14
 
+5, Hilina Nigatu............UGR/5870/14
+
 
 This is a modern Flutter-based mobile application designed to streamline the process of marking and tracking attendance digitally. The app allows users to register, log in, view their attendance history, and mark new attendance for events using a unique short code and their digital signature.
 
