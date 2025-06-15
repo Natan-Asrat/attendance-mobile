@@ -128,7 +128,7 @@ class _CreateAttendanceScreenState extends State<CreateAttendanceScreen> {
                       filled: true,
                       fillColor: Colors.grey[200],
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(13),
                         borderSide: BorderSide.none,
                       ),
                       prefixIcon: const Icon(Icons.qr_code_scanner, color: Colors.grey),
@@ -158,7 +158,7 @@ class _CreateAttendanceScreenState extends State<CreateAttendanceScreen> {
             ),
             if (_errorMessage != null)
               Padding(
-                padding: const EdgeInsets.only(top: 16.0, bottom: 8.0),
+                padding: const EdgeInsets.only(top: 16.0, bottom: 8.1),
                 child: Text(
                   _errorMessage!,
                   style: TextStyle(color: Colors.red[700], fontSize: 14),
@@ -222,7 +222,7 @@ class _CreateAttendanceScreenState extends State<CreateAttendanceScreen> {
                           backgroundColor: Colors.green[600],
                           foregroundColor: Colors.white,
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
+                            borderRadius: BorderRadius.circular(13),
                           ),
                           textStyle: const TextStyle(
                             fontSize: 16,
